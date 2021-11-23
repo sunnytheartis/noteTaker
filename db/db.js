@@ -1,6 +1,6 @@
 const util = require('util');
 const fs = require('fs');
-const uuidv1 = require('uuid/v1');
+const uuidv1 = require('uuidv1');
 
 const read = util.promisify(fs.readFile);
 const write = util.promisify(fs.writeFile);
@@ -16,9 +16,14 @@ class Db {
 
   getNotes() {
     return this.read().then((notes) => {
-      let parsedNotes = [].concat(JSON.parse(notes));
+      let parsed;
+      try {
+        parsed = [].concat(JSON.parse(notes));
+      } catch (err) {
+        parsed = [];
+      }
 
-      return parsedNotes ;
+      return parsed;
     });
   }
 
@@ -37,3 +42,5 @@ class Db {
       .then(() => newNote);
   }
 }
+
+module.exports = new Db()
