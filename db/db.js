@@ -2,12 +2,12 @@ const util = require('util');
 const fs = require('fs');
 const uuidv1 = require('uuidv1');
 
-const readF = util.promisify(fs.readFile);
+const read = util.promisify(fs.readFile);
 const write = util.promisify(fs.writeFile);
 
 class Db {
   read() {
-    return readF('db/db.json', 'utf8');
+    return read('db/db.json', 'utf8');
   }
 
   write(note) {
